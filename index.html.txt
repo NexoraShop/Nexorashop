@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nexora – Exquisite Düfte</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=CHF"></script>
+</head>
+<body>
+  <header>
+    <h1>Nexora – Exquisite Düfte</h1>
+    <p>Exklusive Parfüms von Louis Vuitton, Xerjoff und Parfums de Marly</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Louis Vuitton (CHF 150)</h2>
+      <div class="products">
+        <div class="product"><h3>Afternoon Swim</h3><div class="paypal-button" data-name="Afternoon Swim" data-price="150"></div></div>
+        <div class="product"><h3>Pacific Chill</h3><div class="paypal-button" data-name="Pacific Chill" data-price="150"></div></div>
+        <div class="product"><h3>Imagination</h3><div class="paypal-button" data-name="Imagination" data-price="150"></div></div>
+        <div class="product"><h3>City of Stars</h3><div class="paypal-button" data-name="City of Stars" data-price="150"></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Xerjoff (CHF 140)</h2>
+      <div class="products">
+        <div class="product"><h3>Torino21</h3><div class="paypal-button" data-name="Torino21" data-price="140"></div></div>
+        <div class="product"><h3>Naxos</h3><div class="paypal-button" data-name="Naxos" data-price="140"></div></div>
+        <div class="product"><h3>Naxos Gold</h3><div class="paypal-button" data-name="Naxos Gold" data-price="140"></div></div>
+        <div class="product"><h3>Erba Gold</h3><div class="paypal-button" data-name="Erba Gold" data-price="140"></div></div>
+        <div class="product"><h3>Erba Pura</h3><div class="paypal-button" data-name="Erba Pura" data-price="140"></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Parfums de Marly (CHF 140)</h2>
+      <div class="products">
+        <div class="product"><h3>Althair</h3><div class="paypal-button" data-name="Althair" data-price="140"></div></div>
+        <div class="product"><h3>Layton</h3><div class="paypal-button" data-name="Layton" data-price="140"></div></div>
+        <div class="product"><h3>Greenley</h3><div class="paypal-button" data-name="Greenley" data-price="140"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const PAYPAL_EMAIL = "pa.07.sigrist@gmail.com";
+
+    document.querySelectorAll(".paypal-button").forEach(container => {
+      const name = container.dataset.name;
+      const price = container.dataset.price;
+
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: price
+              },
+              description: name
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert(`Danke, ${details.payer.name.given_name}, für den Kauf von "${name}" bei Nexora!`);
+          });
+        }
+      }).render(container);
+    });
+  </script>
+</body>
+</html>
